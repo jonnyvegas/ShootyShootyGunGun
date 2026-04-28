@@ -3,15 +3,16 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-
+    [SerializeField] Transform BarrelLoc;
     [SerializeField] Transform CameraLoc;
     [SerializeField] ParticleSystem muzzleFlash;
-    
+    [SerializeField] Animator animator;
+
     RaycastHit hit;
     StarterAssetsInputs starterAssetsInputs;
-    float shootDistance = 10000f;
+    float shootDistance = 50000f;
     Damage damage;
-
+    const string SHOOT_STRING = "Shoot";
     private void Awake()
     {
         starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
@@ -20,6 +21,7 @@ public class Weapon : MonoBehaviour
 
     private void CheckHit(RaycastHit hit)
     {
+        Debug.Log("hit " + hit.collider.gameObject.name);
         if (hit.collider.TryGetComponent(out Health health))
         {
             health.SetHealth(health.CurrentHealth - damage.Dmg);
@@ -28,14 +30,16 @@ public class Weapon : MonoBehaviour
 
     private void Shoot()
     {
-        //Debug.DrawRay(CameraLoc.position, CameraLoc.forward * shootDistance, Color.red, 100f);
-        if (Physics.Raycast(CameraLoc.position, CameraLoc.forward, out hit, shootDistance))
-        {
-            CheckHit(hit);
-
-        }
         starterAssetsInputs.ShootInput(false);
         muzzleFlash.Play();
+        animator.Play(SHOOT_STRING, 0, 0f);
+        //Debug.Log(shootDistance);
+        Debug.DrawRay(BarrelLoc.position, CameraLoc.forward * 10000f, Color.red, 100f);
+        if (!Physics.Raycast(BarrelLoc.position, CameraLoc.forward, out hit, shootDistance))
+        {
+            return;
+        }
+        CheckHit(hit);  
     }
 
     // Update is called once per frame
