@@ -7,10 +7,12 @@ public class Weapon : MonoBehaviour
     RaycastHit hit;
     StarterAssetsInputs starterAssetsInputs;
     float shootDistance = 10000f;
+    Damage damage;
 
     private void Awake()
     {
         starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
+        damage = gameObject.AddComponent<Damage>();
     }
 
     // Update is called once per frame
@@ -21,7 +23,10 @@ public class Weapon : MonoBehaviour
             //Debug.DrawRay(CameraLoc.position, CameraLoc.forward * shootDistance, Color.red, 100f);
             if (Physics.Raycast(CameraLoc.position, CameraLoc.forward, out hit, shootDistance))
             {
-                Debug.Log(hit.collider.gameObject.name);
+                if(hit.collider.TryGetComponent(out Health health))
+                {
+                    health.SetHealth(health.CurrentHealth - damage.Dmg);
+                }
             }
             starterAssetsInputs.ShootInput(false);
         }
