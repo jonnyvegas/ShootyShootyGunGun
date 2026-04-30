@@ -7,6 +7,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] Transform CameraLoc;
     [SerializeField] ParticleSystem muzzleFlash;
     [SerializeField] Animator animator;
+    [SerializeField] GameObject hitVFXPrefab;
 
     RaycastHit hit;
     StarterAssetsInputs starterAssetsInputs;
@@ -22,6 +23,10 @@ public class Weapon : MonoBehaviour
     private void CheckHit(RaycastHit hit)
     {
         Debug.Log("hit " + hit.collider.gameObject.name);
+        if(hitVFXPrefab)
+        {
+            Instantiate(hitVFXPrefab, hit.point, Quaternion.identity);//hit.normal);
+        }
         if (hit.collider.TryGetComponent(out Health health))
         {
             health.SetHealth(health.CurrentHealth - damage.Dmg);
@@ -34,7 +39,7 @@ public class Weapon : MonoBehaviour
         muzzleFlash.Play();
         animator.Play(SHOOT_STRING, 0, 0f);
         //Debug.Log(shootDistance);
-        Debug.DrawRay(BarrelLoc.position, CameraLoc.forward * 10000f, Color.red, 100f);
+        //Debug.DrawRay(BarrelLoc.position, CameraLoc.forward * 10000f, Color.red, 100f);
         if (!Physics.Raycast(BarrelLoc.position, CameraLoc.forward, out hit, shootDistance))
         {
             return;

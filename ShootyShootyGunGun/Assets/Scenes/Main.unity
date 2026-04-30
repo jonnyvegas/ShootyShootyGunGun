@@ -1913,6 +1913,7 @@ MonoBehaviour:
   CameraLoc: {fileID: 2011484157}
   muzzleFlash: {fileID: 4287546740670871948}
   animator: {fileID: 632328101}
+  hitVFXPrefab: {fileID: 836706294777834964, guid: a1d747786e508f44e9eef04c1a7dad75, type: 3}
 --- !u!1 &1825824288
 GameObject:
   m_ObjectHideFlags: 0
@@ -2147,7 +2148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 669143472951717896, guid: 0fb4e4ed8fc38a043aee13eadaa73e90, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 669143472951717896, guid: 0fb4e4ed8fc38a043aee13eadaa73e90, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key0.g
@@ -2171,7 +2172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 669143472951717896, guid: 0fb4e4ed8fc38a043aee13eadaa73e90, type: 3}
       propertyPath: InitialModule.startLifetime.minMaxState
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 669143472951717896, guid: 0fb4e4ed8fc38a043aee13eadaa73e90, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.m_ColorSpace
