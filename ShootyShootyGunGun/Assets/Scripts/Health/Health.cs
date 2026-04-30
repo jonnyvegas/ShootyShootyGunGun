@@ -20,4 +20,9 @@ public class Health : MonoBehaviour
     {
 
     }
+
+    public void ResetHealth()
+    {
+        health = startingHealth;
+    }
 }
