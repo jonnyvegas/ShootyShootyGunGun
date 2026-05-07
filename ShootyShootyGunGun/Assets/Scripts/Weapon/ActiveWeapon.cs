@@ -66,18 +66,15 @@ public class ActiveWeapon : MonoBehaviour
         if (!canShoot)
         {
             CheckCooldown();
+            //return;
         }
-        if (starterAssetsInputs.shoot)
+        if (starterAssetsInputs.shoot && canShoot)
         {
-            if(canShoot)
-            {
-                HandleShoot();
-            }
-            //Debug.Log("Handling shoot");
-            else
-            {
-                starterAssetsInputs.ShootInput(false);
-            }
+            HandleShoot();
+        }
+        else 
+        {
+            starterAssetsInputs.ShootInput(false);
         }
     }
 }
