@@ -43,7 +43,7 @@ public class ActiveWeapon : MonoBehaviour
         //Debug.Log(shootDistance);
         //Debug.DrawRay(BarrelLoc.position, CameraLoc.forward * 10000f, Color.red, 100f);
         currentWeapon.Shoot(weaponSO);
-        Debug.Log("Shooting. time since last: " + timeSinceLastShot);
+        //Debug.Log("Shooting. time since last: " + timeSinceLastShot);
         //starterAssetsInputs.ShootInput(false);
         //CheckHit(hit);
 
@@ -58,6 +58,10 @@ public class ActiveWeapon : MonoBehaviour
             canShoot = true;
             timeSinceLastShot = 0f;
         }
+        else
+        {
+            starterAssetsInputs.ShootInput(false);
+        }
     }
 
     // Update is called once per frame
@@ -66,15 +70,11 @@ public class ActiveWeapon : MonoBehaviour
         if (!canShoot)
         {
             CheckCooldown();
-            //return;
+            return;
         }
         if (starterAssetsInputs.shoot && canShoot)
         {
             HandleShoot();
-        }
-        else 
-        {
-            starterAssetsInputs.ShootInput(false);
         }
     }
 }
