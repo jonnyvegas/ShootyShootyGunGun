@@ -1,5 +1,6 @@
 using StarterAssets;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ActiveWeapon : MonoBehaviour
 {
@@ -13,9 +14,14 @@ public class ActiveWeapon : MonoBehaviour
     float timeSinceLastShot = 0f;
     const string SHOOT_STRING = "Shoot";
 
+    //PlayerInput playerInput;
+    //InputAction shootAction;
+
     private void Awake()
     {
         starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
+        //PlayerInput playerInput = GetComponentInParent<PlayerInput>();
+        //shootAction = playerInput.actions[SHOOT_STRING];
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,7 +37,7 @@ public class ActiveWeapon : MonoBehaviour
 
     private void HandleShoot()
     {
-        if (!canShoot || !starterAssetsInputs.shoot)
+        if (!canShoot || !starterAssetsInputs.shoot || !weaponSO.IsAutomatic)
         {
             return;
         }
@@ -45,6 +51,8 @@ public class ActiveWeapon : MonoBehaviour
         currentWeapon.Shoot(weaponSO);
         //Debug.Log("Shooting. time since last: " + timeSinceLastShot);
         //starterAssetsInputs.ShootInput(false);
+        
+        
         //CheckHit(hit);
 
     }
@@ -60,7 +68,10 @@ public class ActiveWeapon : MonoBehaviour
         }
         else
         {
-            starterAssetsInputs.ShootInput(false);
+            if (!weaponSO.IsAutomatic)// || !shootAction.IsPressed())
+            { 
+                starterAssetsInputs.ShootInput(false); 
+            }
         }
     }
 
