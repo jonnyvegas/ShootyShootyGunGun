@@ -37,7 +37,7 @@ public class ActiveWeapon : MonoBehaviour
 
     private void HandleShoot()
     {
-        if (!canShoot || !starterAssetsInputs.shoot || !weaponSO.IsAutomatic)
+        if (!canShoot || !starterAssetsInputs.shoot)
         {
             return;
         }
@@ -87,5 +87,16 @@ public class ActiveWeapon : MonoBehaviour
         {
             HandleShoot();
         }
+    }
+
+    public void SwitchWeapon(WeaponSO newWeaponSO)
+    {
+        if(currentWeapon)
+        {
+            Destroy(currentWeapon.gameObject);
+        }
+        Weapon newWeapon = Instantiate(newWeaponSO.WeaponPrefab, transform).GetComponent<Weapon>();
+        currentWeapon = newWeapon;
+        this.weaponSO = newWeaponSO;
     }
 }
