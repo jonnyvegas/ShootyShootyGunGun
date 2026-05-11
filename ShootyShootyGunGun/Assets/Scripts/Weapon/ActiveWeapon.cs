@@ -1,4 +1,6 @@
 using StarterAssets;
+using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +20,12 @@ public class ActiveWeapon : MonoBehaviour
     PlayerInput playerInput;
     //InputAction shootAction;
     InputAction zoomAction;
+    float zoomTime = 5f;
+    float zoomDelta = 0f;
+    float originalFOV = 0f;
+    Coroutine zoomCoroutineRef;
+
+    [SerializeField] CinemachineVirtualCamera cam;
 
     private void Awake()
     {
@@ -25,12 +33,16 @@ public class ActiveWeapon : MonoBehaviour
         PlayerInput playerInput = GetComponentInParent<PlayerInput>();
         //shootAction = playerInput.actions[SHOOT_STRING];
         zoomAction = playerInput.actions[ZOOM_STRING];
+        zoomAction.started += StartZoomIn;
+        zoomAction.canceled += CancelZoomIn;
+        //zoomAction.bin
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentWeapon = GetComponentInChildren<Weapon>();
         animator = GetComponent<Animator>();
+        originalFOV = cam.m_Lens.FieldOfView;
     }
 
     private void PlayAnim()
@@ -82,16 +94,60 @@ public class ActiveWeapon : MonoBehaviour
         }
     }
 
-    private void UpdateZoom()
+    private IEnumerator ZoomCoroutine(bool zoomIn)
     {
-        Debug.Log(zoomAction.IsPressed());
+       // Debug.Log("StartCoroutine");
+        zoomDelta = 0f;
+        //float zoomAlpha = zoomIn ? (zoomDelta / zoomTime) : (1 - (zoomDelta / zoomTime));
+        //Debug.Log("zoom time " + zoomTime);   
+        Debug.Log(zoomIn);
+        while(zoomDelta < zoomTime)
+        {
+            if(zoomIn)
+            {
+                cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, weaponSO.ZoomFOV, zoomDelta / zoomTime);
+            }
+            else
+            {
+                cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, originalFOV, zoomDelta / zoomTime);
+            }
+           
+            zoomDelta += Time.deltaTime;
+            //Debug.Log("zoom delta: " + zoomDelta);
+            yield return null;
+        }
+    }
+
+
+    private void StartZoomIn(InputAction.CallbackContext context)
+    {
+        if (!weaponSO.IsZoomable) 
+        { 
+            return; 
+        }
+        StopAllCoroutines();
+        zoomCoroutineRef = StartCoroutine(ZoomCoroutine(true));
+
+        Debug.Log("Button pressed");
+
+    }
+
+    private void CancelZoomIn(InputAction.CallbackContext context)
+    {
+        if (!weaponSO.IsZoomable)
+        {
+            return;
+        }
+
+        StopAllCoroutines(); 
+        zoomCoroutineRef = StartCoroutine(ZoomCoroutine(false));
+        Debug.Log("Button released");
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdateShoot();
-        UpdateZoom();
     }
 
     public void SwitchWeapon(WeaponSO newWeaponSO)
