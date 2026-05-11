@@ -13,15 +13,18 @@ public class ActiveWeapon : MonoBehaviour
     bool canShoot = true;
     float timeSinceLastShot = 0f;
     const string SHOOT_STRING = "Shoot";
+    const string ZOOM_STRING = "Zoom";
 
-    //PlayerInput playerInput;
+    PlayerInput playerInput;
     //InputAction shootAction;
+    InputAction zoomAction;
 
     private void Awake()
     {
         starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
-        //PlayerInput playerInput = GetComponentInParent<PlayerInput>();
+        PlayerInput playerInput = GetComponentInParent<PlayerInput>();
         //shootAction = playerInput.actions[SHOOT_STRING];
+        zoomAction = playerInput.actions[ZOOM_STRING];
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,7 +33,7 @@ public class ActiveWeapon : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void PlayAnimAndFX()
+    private void PlayAnim()
     {
         animator.Play(SHOOT_STRING, 0, 0f);
     }
@@ -44,17 +47,8 @@ public class ActiveWeapon : MonoBehaviour
         // start the timer check for cooldown.
         //timeSinceLastShot = 0f;
         canShoot = false;
-        
-        PlayAnimAndFX();
-        //Debug.Log(shootDistance);
-        //Debug.DrawRay(BarrelLoc.position, CameraLoc.forward * 10000f, Color.red, 100f);
+        PlayAnim();
         currentWeapon.Shoot(weaponSO);
-        //Debug.Log("Shooting. time since last: " + timeSinceLastShot);
-        //starterAssetsInputs.ShootInput(false);
-        
-        
-        //CheckHit(hit);
-
     }
 
     private void CheckCooldown()
@@ -75,8 +69,7 @@ public class ActiveWeapon : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateShoot()
     {
         if (!canShoot)
         {
@@ -87,6 +80,18 @@ public class ActiveWeapon : MonoBehaviour
         {
             HandleShoot();
         }
+    }
+
+    private void UpdateZoom()
+    {
+        Debug.Log(zoomAction.IsPressed());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateShoot();
+        UpdateZoom();
     }
 
     public void SwitchWeapon(WeaponSO newWeaponSO)
