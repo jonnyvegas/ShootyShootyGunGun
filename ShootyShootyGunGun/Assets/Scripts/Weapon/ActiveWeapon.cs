@@ -11,6 +11,7 @@ public class ActiveWeapon : MonoBehaviour
     
     StarterAssetsInputs starterAssetsInputs;
     Weapon currentWeapon;
+    FirstPersonController firstPersonController;
 
     bool canShoot = true;
     float timeSinceLastShot = 0f;
@@ -23,6 +24,7 @@ public class ActiveWeapon : MonoBehaviour
     float zoomTime = 5f;
     float zoomDelta = 0f;
     float originalFOV = 0f;
+    float originalRotSpeed = 0f;
     Coroutine zoomCoroutineRef;
 
     [SerializeField] CinemachineVirtualCamera cam;
@@ -36,6 +38,8 @@ public class ActiveWeapon : MonoBehaviour
         zoomAction = playerInput.actions[ZOOM_STRING];
         zoomAction.started += StartZoomIn;
         zoomAction.canceled += CancelZoomIn;
+        firstPersonController = GetComponentInParent<FirstPersonController>();
+        originalRotSpeed = firstPersonController.RotationSpeed;
         //zoomAction.bin
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -104,15 +108,12 @@ public class ActiveWeapon : MonoBehaviour
         //Debug.Log(zoomIn);
         while(zoomDelta < zoomTime)
         {
-            if(zoomIn)
-            {
-                cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, weaponSO.ZoomFOV, zoomDelta / zoomTime);
-            }
-            else
-            {
-                cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, originalFOV, zoomDelta / zoomTime);
-            }
-           
+
+            cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, zoomIn ? weaponSO.ZoomFOV : originalFOV, zoomDelta / zoomTime);
+
+            //cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, originalFOV, zoomDelta / zoomTime);
+
+
             zoomDelta += Time.deltaTime;
             //Debug.Log("zoom delta: " + zoomDelta);
             yield return null;
@@ -129,6 +130,7 @@ public class ActiveWeapon : MonoBehaviour
         StopAllCoroutines();
         zoomCoroutineRef = StartCoroutine(ZoomCoroutine(true));
         zoomVignette.SetActive(true);
+        firstPersonController.ChangeRotationSpeed(weaponSO.ZoomRotationSpeed);
        // Debug.Log("Button pressed");
 
     }
@@ -143,6 +145,7 @@ public class ActiveWeapon : MonoBehaviour
         StopAllCoroutines(); 
         zoomCoroutineRef = StartCoroutine(ZoomCoroutine(false));
         zoomVignette.SetActive(false);
+        firstPersonController.ChangeRotationSpeed(originalRotSpeed);
        // Debug.Log("Button released");
     }
 

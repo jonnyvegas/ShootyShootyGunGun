@@ -10,4 +10,5 @@ public class WeaponSO : ScriptableObject
     public bool IsAutomatic = false;
     public bool IsZoomable = false;
     public float ZoomFOV = 35f;
+    public float ZoomRotationSpeed = .3f;
 }
