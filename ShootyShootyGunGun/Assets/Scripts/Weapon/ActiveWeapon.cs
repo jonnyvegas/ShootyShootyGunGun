@@ -26,6 +26,7 @@ public class ActiveWeapon : MonoBehaviour
     Coroutine zoomCoroutineRef;
 
     [SerializeField] CinemachineVirtualCamera cam;
+    [SerializeField] GameObject zoomVignette;
 
     private void Awake()
     {
@@ -100,7 +101,7 @@ public class ActiveWeapon : MonoBehaviour
         zoomDelta = 0f;
         //float zoomAlpha = zoomIn ? (zoomDelta / zoomTime) : (1 - (zoomDelta / zoomTime));
         //Debug.Log("zoom time " + zoomTime);   
-        Debug.Log(zoomIn);
+        //Debug.Log(zoomIn);
         while(zoomDelta < zoomTime)
         {
             if(zoomIn)
@@ -127,8 +128,8 @@ public class ActiveWeapon : MonoBehaviour
         }
         StopAllCoroutines();
         zoomCoroutineRef = StartCoroutine(ZoomCoroutine(true));
-
-        Debug.Log("Button pressed");
+        zoomVignette.SetActive(true);
+       // Debug.Log("Button pressed");
 
     }
 
@@ -141,7 +142,8 @@ public class ActiveWeapon : MonoBehaviour
 
         StopAllCoroutines(); 
         zoomCoroutineRef = StartCoroutine(ZoomCoroutine(false));
-        Debug.Log("Button released");
+        zoomVignette.SetActive(false);
+       // Debug.Log("Button released");
     }
 
     // Update is called once per frame
