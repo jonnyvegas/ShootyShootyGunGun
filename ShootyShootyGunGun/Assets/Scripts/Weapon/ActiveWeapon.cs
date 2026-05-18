@@ -1,14 +1,17 @@
 using StarterAssets;
 using System.Collections;
+using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class ActiveWeapon : MonoBehaviour
 {
-    [SerializeField] WeaponSO weaponSO;
+    [SerializeField] WeaponSO startingWeapon;
+    [SerializeField] TMP_Text ammoText;
+
     Animator animator;
-    
+    WeaponSO currentWeaponSO;
     StarterAssetsInputs starterAssetsInputs;
     Weapon currentWeapon;
     FirstPersonController firstPersonController;
@@ -30,6 +33,9 @@ public class ActiveWeapon : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera cam;
     [SerializeField] GameObject zoomVignette;
 
+    int currentAmmo;
+    public int CurrentAmmo => currentAmmo ;
+
     private void Awake()
     {
         starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
@@ -45,9 +51,11 @@ public class ActiveWeapon : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentWeapon = GetComponentInChildren<Weapon>();
+        //currentWeapon = GetComponentInChildren<Weapon>();
         animator = GetComponent<Animator>();
         originalFOV = cam.m_Lens.FieldOfView;
+        SwitchWeapon(startingWeapon);
+        AdjustAmmo(startingWeapon.MagazineSize);
     }
 
     private void PlayAnim()
@@ -55,9 +63,21 @@ public class ActiveWeapon : MonoBehaviour
         animator.Play(SHOOT_STRING, 0, 0f);
     }
 
+    public void AdjustAmmo(int amount)
+    {
+        currentAmmo += amount;
+        currentAmmo = Mathf.Clamp(currentAmmo, 0, currentWeaponSO.MagazineSize);
+        ammoText.text = currentAmmo.ToString("D2");
+    }
+
+    public void ZeroOutAmmo()
+    {
+        AdjustAmmo(currentAmmo * -1);
+    }
+
     private void HandleShoot()
     {
-        if (!canShoot || !starterAssetsInputs.shoot)
+        if (!canShoot || !starterAssetsInputs.shoot || currentAmmo <= 0)
         {
             return;
         }
@@ -65,13 +85,14 @@ public class ActiveWeapon : MonoBehaviour
         //timeSinceLastShot = 0f;
         canShoot = false;
         PlayAnim();
-        currentWeapon.Shoot(weaponSO);
+        currentWeapon.Shoot(currentWeaponSO);
+        AdjustAmmo(-1);
     }
 
     private void CheckCooldown()
     {
         timeSinceLastShot += Time.deltaTime;
-        if (timeSinceLastShot >= weaponSO.FireRate)
+        if (timeSinceLastShot >= currentWeaponSO.FireRate)
         {
             //Debug.Log("time since last shot: " + timeSinceLastShot);
             canShoot = true;
@@ -79,7 +100,7 @@ public class ActiveWeapon : MonoBehaviour
         }
         else
         {
-            if (!weaponSO.IsAutomatic)// || !shootAction.IsPressed())
+            if (!currentWeaponSO.IsAutomatic)// || !shootAction.IsPressed())
             { 
                 starterAssetsInputs.ShootInput(false); 
             }
@@ -109,7 +130,7 @@ public class ActiveWeapon : MonoBehaviour
         while(zoomDelta < zoomTime)
         {
 
-            cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, zoomIn ? weaponSO.ZoomFOV : originalFOV, zoomDelta / zoomTime);
+            cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, zoomIn ? currentWeaponSO.ZoomFOV : originalFOV, zoomDelta / zoomTime);
 
             //cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, originalFOV, zoomDelta / zoomTime);
 
@@ -123,21 +144,21 @@ public class ActiveWeapon : MonoBehaviour
 
     private void StartZoomIn(InputAction.CallbackContext context)
     {
-        if (!weaponSO.IsZoomable) 
+        if (!currentWeaponSO.IsZoomable) 
         { 
             return; 
         }
         StopAllCoroutines();
         zoomCoroutineRef = StartCoroutine(ZoomCoroutine(true));
         zoomVignette.SetActive(true);
-        firstPersonController.ChangeRotationSpeed(weaponSO.ZoomRotationSpeed);
+        firstPersonController.ChangeRotationSpeed(currentWeaponSO.ZoomRotationSpeed);
        // Debug.Log("Button pressed");
 
     }
 
     private void CancelZoomIn(InputAction.CallbackContext context)
     {
-        if (!weaponSO.IsZoomable)
+        if (!currentWeaponSO.IsZoomable)
         {
             return;
         }
@@ -163,6 +184,6 @@ public class ActiveWeapon : MonoBehaviour
         }
         Weapon newWeapon = Instantiate(newWeaponSO.WeaponPrefab, transform).GetComponent<Weapon>();
         currentWeapon = newWeapon;
-        this.weaponSO = newWeaponSO;
+        this.currentWeaponSO = newWeaponSO;
     }
 }
