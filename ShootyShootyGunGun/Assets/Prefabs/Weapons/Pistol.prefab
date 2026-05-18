@@ -80,6 +80,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   BarrelLoc: {fileID: 7634842290906129454}
   muzzleFlash: {fileID: 2273229843615528797}
+  interactionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &8764830699505001388
 GameObject:
   m_ObjectHideFlags: 0

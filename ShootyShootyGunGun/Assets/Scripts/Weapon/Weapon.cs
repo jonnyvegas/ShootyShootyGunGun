@@ -7,6 +7,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] Transform BarrelLoc;
    // [SerializeField] Transform CameraLoc;
     [SerializeField] ParticleSystem muzzleFlash;
+    [SerializeField] LayerMask interactionLayers;
 
     RaycastHit hit;
     
@@ -32,7 +33,7 @@ public class Weapon : MonoBehaviour
     public void Shoot(WeaponSO weaponSO)
     {
         muzzleFlash.Play();
-        if (!Physics.Raycast(BarrelLoc.position, Camera.main.transform.forward, out hit, shootDistance))
+        if (!Physics.Raycast(BarrelLoc.position, Camera.main.transform.forward, out hit, shootDistance, interactionLayers, QueryTriggerInteraction.Ignore))
         {
             return;
         }
