@@ -10,7 +10,7 @@ public class Health : MonoBehaviour
     {
         this.health = health;
         Debug.Log("Current health: " + this.health);
-        if(health < 0 )
+        if(health <= 0 )
         {
             OnZeroHealth();
         }
