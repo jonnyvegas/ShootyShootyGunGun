@@ -11,7 +11,7 @@ public class ActiveWeapon : MonoBehaviour
     [SerializeField] TMP_Text ammoText;
 
     Animator animator;
-    WeaponSO currentWeaponSO;
+   
     StarterAssetsInputs starterAssetsInputs;
     Weapon currentWeapon;
     FirstPersonController firstPersonController;
@@ -34,7 +34,9 @@ public class ActiveWeapon : MonoBehaviour
     [SerializeField] GameObject zoomVignette;
 
     int currentAmmo;
-    public int CurrentAmmo => currentAmmo ;
+    public int CurrentAmmo => currentAmmo;
+    WeaponSO currentWeaponSO;
+    public WeaponSO CurrentWeaponSO => currentWeaponSO;
 
     private void Awake()
     {

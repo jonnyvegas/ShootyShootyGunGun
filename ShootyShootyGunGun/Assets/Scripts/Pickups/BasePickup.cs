@@ -31,6 +31,16 @@ public class BasePickup : MonoBehaviour
 
     public virtual void HandlePickup(Collider other)
     {
+        ActiveWeapon weapon = other.GetComponentInChildren<ActiveWeapon>();
+        if(weapon)
+        {
+            HandleWeaponPickup(weapon);
+        }
+        //Destroy(this.gameObject);
+    }
+
+    public virtual void HandleWeaponPickup(ActiveWeapon weapon)
+    {
 
     }
 }

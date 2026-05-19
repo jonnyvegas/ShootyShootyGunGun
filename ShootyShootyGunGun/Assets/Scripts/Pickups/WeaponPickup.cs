@@ -18,17 +18,14 @@ public class WeaponPickup : BasePickup
     public override void HandlePickup(Collider other)
     {
         base.HandlePickup(other);
-        //Debug.Log("trigger enter");
-        if (other.CompareTag(PLAYER_STRING))
-        {
-            ActiveWeapon weapon = other.GetComponentInChildren<ActiveWeapon>();
-            if (weapon)
-            {
-                weapon.SwitchWeapon(weaponSO);
-                weapon.ZeroOutAmmo();
-                weapon.AdjustAmmo(weaponSO.MagazineSize);
-                Destroy(this.gameObject);
-            }
-        }
+    }
+
+    public override void HandleWeaponPickup(ActiveWeapon weapon)
+    {
+        base.HandleWeaponPickup(weapon);
+        weapon.SwitchWeapon(weaponSO);
+        weapon.ZeroOutAmmo();
+        weapon.AdjustAmmo(weaponSO.MagazineSize);
+        Destroy(this.gameObject);
     }
 }
