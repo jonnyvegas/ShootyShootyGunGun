@@ -31,6 +31,7 @@ public class ActiveWeapon : MonoBehaviour
     Coroutine zoomCoroutineRef;
 
     [SerializeField] CinemachineVirtualCamera cam;
+    [SerializeField] Camera weaponCam;
     [SerializeField] GameObject zoomVignette;
 
     int currentAmmo;
@@ -133,7 +134,7 @@ public class ActiveWeapon : MonoBehaviour
         {
 
             cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, zoomIn ? currentWeaponSO.ZoomFOV : originalFOV, zoomDelta / zoomTime);
-
+            weaponCam.fieldOfView = Mathf.Lerp(weaponCam.fieldOfView, zoomIn ? currentWeaponSO.ZoomFOV : originalFOV, zoomDelta / zoomTime);
             //cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, originalFOV, zoomDelta / zoomTime);
 
 

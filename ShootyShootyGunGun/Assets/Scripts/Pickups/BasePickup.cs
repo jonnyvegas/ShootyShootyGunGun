@@ -6,6 +6,7 @@ public class BasePickup : MonoBehaviour
     float rotationSpeed = 100f;
     float amtToRotate = 1f;
     [SerializeField] bool shouldRotate = true;
+    [SerializeField] bool destroyAfterPickup = true;
     Vector3 rotation = Vector3.zero;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,5 +43,14 @@ public class BasePickup : MonoBehaviour
     public virtual void HandleWeaponPickup(ActiveWeapon weapon)
     {
 
+    }
+
+    public void DestroyPickup()
+    {
+        if(!destroyAfterPickup)
+        {
+            return;
+        }
+        Destroy(this.gameObject);
     }
 }

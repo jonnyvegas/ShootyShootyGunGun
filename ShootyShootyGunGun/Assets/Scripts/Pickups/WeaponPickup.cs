@@ -26,6 +26,6 @@ public class WeaponPickup : BasePickup
         weapon.SwitchWeapon(weaponSO);
         weapon.ZeroOutAmmo();
         weapon.AdjustAmmo(weaponSO.MagazineSize);
-        Destroy(this.gameObject);
+        DestroyPickup();
     }
 }

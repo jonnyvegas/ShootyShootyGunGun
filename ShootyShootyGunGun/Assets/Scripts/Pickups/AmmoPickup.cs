@@ -17,6 +17,6 @@ public class AmmoPickup : BasePickup
             return;
         }
         weapon.AdjustAmmo(ammoAmt);
-        Destroy(this.gameObject);
+        DestroyPickup();
     }
 }
