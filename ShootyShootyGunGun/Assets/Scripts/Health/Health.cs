@@ -6,6 +6,8 @@ public class Health : MonoBehaviour
     float startingHealth = 100f;
     public float CurrentHealth => health;
 
+    public event System.Action ZeroHealthEvent;
+
     public void SetHealth(float health)
     {
         this.health = health;
@@ -18,7 +20,7 @@ public class Health : MonoBehaviour
 
     virtual public void OnZeroHealth()
     {
-
+        ZeroHealthEvent?.Invoke();
     }
 
     public void ResetHealth()

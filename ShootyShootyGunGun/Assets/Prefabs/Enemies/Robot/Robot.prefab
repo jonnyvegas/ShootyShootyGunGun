@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 7003163929184325840}
   - component: {fileID: 1750476228585795833}
   - component: {fileID: 1807558900445969550}
+  - component: {fileID: 7402930705845629164}
   m_Layer: 6
   m_Name: Robot
   m_TagString: Untagged
@@ -162,6 +163,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7402930705845629164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7319381100794970349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68433b325ac6de4b9ce30d810e68f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXManager
+  DeathVFXPrefab: {fileID: 6688270593306659398, guid: 765b63fa0f267f044af8a971530ff1af, type: 3}
+  healthRef: {fileID: 1750476228585795833}
 --- !u!1001 &6444571862109053356
 PrefabInstance:
   m_ObjectHideFlags: 0
