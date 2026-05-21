@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 1750476228585795833}
   - component: {fileID: 1807558900445969550}
   - component: {fileID: 7402930705845629164}
+  - component: {fileID: 5013683727260355267}
   m_Layer: 6
   m_Name: Robot
   m_TagString: Untagged
@@ -141,6 +142,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   health: 100
+  ZeroHealthEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &1807558900445969550
 Animator:
   serializedVersion: 7
@@ -176,7 +180,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXManager
   DeathVFXPrefab: {fileID: 6688270593306659398, guid: 765b63fa0f267f044af8a971530ff1af, type: 3}
-  healthRef: {fileID: 1750476228585795833}
+--- !u!136 &5013683727260355267
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7319381100794970349}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &6444571862109053356
 PrefabInstance:
   m_ObjectHideFlags: 0

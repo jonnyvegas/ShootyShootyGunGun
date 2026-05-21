@@ -9,6 +9,12 @@ public class EnemyHealth : Health
     public override void OnZeroHealth()
     {
         base.OnZeroHealth();
+        SelfDestruct();
+    }
+
+    public void SelfDestruct()
+    {
+        //OnZeroHealth();
         Destroy(this.gameObject);
     }
 }

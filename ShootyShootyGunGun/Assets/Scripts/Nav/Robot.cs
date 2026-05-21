@@ -5,6 +5,7 @@ public class Robot : MonoBehaviour
 {
     NavMeshAgent agent;
     [SerializeField] Transform target;
+    const string PLAYER_STRING = "Player";
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -20,5 +21,14 @@ public class Robot : MonoBehaviour
     void Update()
     {
         agent.SetDestination(target.position);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag(PLAYER_STRING))
+        {
+            EnemyHealth enemyHealth = GetComponent<EnemyHealth>();
+            enemyHealth.SetHealth(0);
+        }
     }
 }
