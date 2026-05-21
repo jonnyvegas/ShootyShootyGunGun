@@ -20,6 +20,8 @@ public class Robot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!target)
+            return;
         agent.SetDestination(target.position);
     }
 
