@@ -1,7 +1,11 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerHealth : Health
 {
+    [SerializeField] CinemachineVirtualCamera deathVirtualCamera;
+    [SerializeField] Transform weaponCamera;
+    int gameOverVirtualCameraPriority = 20;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,6 +21,8 @@ public class PlayerHealth : Health
     public override void OnZeroHealth()
     {
         base.OnZeroHealth();
+        weaponCamera.parent = null;
+        deathVirtualCamera.Priority = gameOverVirtualCameraPriority;
         Destroy(this.gameObject);
     }
 }
