@@ -32,7 +32,7 @@ public class Explosion : MonoBehaviour
             if (theCollider.TryGetComponent(out IHealth health))
             {
                 //Debug.Log(theCollider.gameObject);
-                health.TakeDamage(100);
+                health.TakeDamage(35);
                 break;
             }
         }
