@@ -14,7 +14,9 @@ public class Robot : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //agent.SetDestination(target.position);
+        if (!target)
+            return;
+        agent.SetDestination(target.position);
     }
 
     // Update is called once per frame
@@ -32,5 +34,12 @@ public class Robot : MonoBehaviour
             EnemyHealth enemyHealth = GetComponent<EnemyHealth>();
             enemyHealth.SetHealth(0);
         }
+    }
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+        Debug.Log("Setting target to " + newTarget.gameObject);
+        //agent.SetDestination(target.position);
     }
 }

@@ -41,7 +41,7 @@ public class PlayerHealth : Health
     {
         for(int i = 0; i < shieldBarImgs.Length; i++)
         {
-           Debug.Log((i + 1) * 10);
+           //Debug.Log((i + 1) * 10);
            shieldBarImgs[i].gameObject.SetActive(health >= ((i + 1) * 10)); 
         }
     }
