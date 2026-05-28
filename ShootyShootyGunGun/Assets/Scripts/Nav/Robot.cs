@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Robot : MonoBehaviour
+public class Robot : MonoBehaviour, IEnemy
 {
     NavMeshAgent agent;
     [SerializeField] Transform target;
@@ -36,13 +36,13 @@ public class Robot : MonoBehaviour
         }
     }
 
-    public void SetTarget(Transform newTarget)
+    virtual public void SetTarget(Transform newTarget)
     {
         target = newTarget;
         //agent.SetDestination(target.position);
     }
 
-    public void Init(Transform newTarget)
+    virtual public void Init(Transform newTarget)
     {
         SetTarget(newTarget);
     }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemySpawner : Spawner
 {
+    [SerializeField] Transform target;
     private void Awake()
     {
         factory = this.AddComponent<EnemyFactory>();
