@@ -39,7 +39,11 @@ public class Robot : MonoBehaviour
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
-        Debug.Log("Setting target to " + newTarget.gameObject);
         //agent.SetDestination(target.position);
+    }
+
+    public void Init(Transform newTarget)
+    {
+        SetTarget(newTarget);
     }
 }

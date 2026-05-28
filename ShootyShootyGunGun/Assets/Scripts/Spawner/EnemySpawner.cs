@@ -1,15 +1,20 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawner : Spawner
 {
+    private void Awake()
+    {
+        factory = this.AddComponent<EnemyFactory>();
+    }
     private void Start()
     {
         BeginSpawn();
     }
-    public override GameObject SpawnObject(GameObject obj)
+    public override GameObject SpawnObject(string objName)
     {
-        Robot robot = base.SpawnObject(obj).GetComponent<Robot>();
-        robot.SetTarget(player.transform);
+        Robot robot = base.SpawnObject(objName).GetComponent<Robot>();
+        robot.Init(player.transform);
         return robot.gameObject;
     }
 }
