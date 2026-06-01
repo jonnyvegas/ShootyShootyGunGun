@@ -24,7 +24,9 @@ public class Weapon : MonoBehaviour
         {
             Instantiate(weaponSO.HitVFXPrefab, hit.point, Quaternion.identity);//hit.normal);
         }
-        if (hit.collider.TryGetComponent(out IHealth health))
+        IHealth health = hit.collider.GetComponentInParent<IHealth>();
+        // check if interface is not null as if(health) and if(health != null) do not work.
+        if(health as UnityEngine.Object)
         {
             health.TakeDamage(weaponSO.Damage);
         }
