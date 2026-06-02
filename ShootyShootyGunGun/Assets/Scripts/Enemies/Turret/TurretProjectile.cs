@@ -44,10 +44,16 @@ public class TurretProjectile : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void Init(float dmg, float projectileSpeed)
+    private void TurnToFaceTarget(Transform target)
+    {
+        this.transform.rotation = Quaternion.LookRotation(target.position - this.transform.position);
+    }
+
+    public void Init(float dmg, float projectileSpeed, Transform target)
     {
         this.damage = dmg;
         this.speed = projectileSpeed;
+        TurnToFaceTarget(target);
         LaunchProjectileForward(this.speed);
     }
 }

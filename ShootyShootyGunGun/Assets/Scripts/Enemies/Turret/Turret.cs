@@ -57,6 +57,6 @@ public class Turret : MonoBehaviour
     {
         //Debug.Log("Fire at player");
         TurretProjectile tp = Instantiate(projectileClass, projectileSpawnLoc.position, turretHead.transform.rotation).GetComponent<TurretProjectile>();
-        tp.Init(projectileDamage, projectileSpeed);
+        tp.Init(projectileDamage, projectileSpeed, playerTransform);
     }
 }
