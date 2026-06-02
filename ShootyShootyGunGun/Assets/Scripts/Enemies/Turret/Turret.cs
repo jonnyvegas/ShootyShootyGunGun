@@ -12,6 +12,8 @@ public class Turret : MonoBehaviour
     Quaternion rotation;
     Coroutine fireProjectileCoroutine;
     float fireRate = 1.0f;
+    [SerializeField] float projectileSpeed = 10f;
+    [SerializeField] float projectileDamage = 5f;
     PlayerHealth ph;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -55,6 +57,6 @@ public class Turret : MonoBehaviour
     {
         //Debug.Log("Fire at player");
         TurretProjectile tp = Instantiate(projectileClass, projectileSpawnLoc.position, turretHead.transform.rotation).GetComponent<TurretProjectile>();
-        tp.Init();
+        tp.Init(projectileDamage, projectileSpeed);
     }
 }
