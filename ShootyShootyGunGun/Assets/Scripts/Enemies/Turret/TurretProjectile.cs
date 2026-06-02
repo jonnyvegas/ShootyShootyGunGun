@@ -14,7 +14,13 @@ public class TurretProjectile : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb.AddForce(transform.forward * speed, ForceMode.Impulse);
+       
+    }
+
+    void LaunchProjectileForward(float projectileSpeed)
+    {
+        rb.linearVelocity = transform.forward * projectileSpeed;
+        //rb.AddForce(transform.forward * projectileSpeed, ForceMode.Impulse);
     }
 
     // Update is called once per frame
@@ -36,5 +42,12 @@ public class TurretProjectile : MonoBehaviour
             health.SetHealth(health.CurrentHealth - this.damage);
         }
         Destroy(this.gameObject);
+    }
+
+    public void Init(float dmg, float projectileSpeed)
+    {
+        this.damage = dmg;
+        this.speed = projectileSpeed;
+        LaunchProjectileForward(this.speed);
     }
 }
