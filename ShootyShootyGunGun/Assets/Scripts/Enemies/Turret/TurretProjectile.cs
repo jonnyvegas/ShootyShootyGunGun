@@ -39,13 +39,15 @@ public class TurretProjectile : MonoBehaviour
         IHealth health = other.GetComponentInParent<IHealth>();
         if(health as UnityEngine.Object)
         {
-            health.SetHealth(health.CurrentHealth - this.damage);
+            health.TakeDamage(this.damage);
         }
         Destroy(this.gameObject);
     }
 
     private void TurnToFaceTarget(Transform target)
     {
+        if (!target)
+            return;
         this.transform.rotation = Quaternion.LookRotation(target.position - this.transform.position);
     }
 
